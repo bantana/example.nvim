@@ -223,4 +223,24 @@ function M.setup(opts)
 	-- vim.keymap.set("v", "<leader>gv", "<cmd>PrintSelectedText<CR>", { desc = "Print selected text", silent = true })
 end
 
+-- Function to delete all buffers except the current one
+local function delete_other_buffers()
+	-- Get the current buffer number
+	local current_buf = vim.api.nvim_get_current_buf()
+
+	-- Get a list of all buffers
+	local buffers = vim.api.nvim_list_bufs()
+
+	-- Iterate through the list of buffers
+	for _, buf in ipairs(buffers) do
+		-- Only delete the buffer if it is not the current one and it is listed
+		if buf ~= current_buf and vim.api.nvim_get_option_value("buflisted", { buf = buf }) then
+			vim.api.nvim_buf_delete(buf, { force = true })
+		end
+	end
+end
+
+-- Create a command to call the function
+vim.api.nvim_create_user_command("DeleteOtherBuffers", delete_other_buffers, {})
+
 return M
