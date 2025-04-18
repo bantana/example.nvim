@@ -220,7 +220,7 @@ function M.setup(opts)
 	end, { desc = "Print the selected text in visual mode" })
 
 	-- Key mapping for visual mode
-	vim.keymap.set("v", "<leader>gv", "<cmd>PrintSelectedText<CR>", { desc = "Print selected text", silent = true })
+	-- vim.keymap.set("v", "<leader>gv", "<cmd>PrintSelectedText<CR>", { desc = "Print selected text", silent = true })
 end
 
 return M
