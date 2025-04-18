@@ -204,9 +204,9 @@ function M.setup(opts)
 	end, { nargs = 0, desc = "Github Gist Search on example.nvim plugin" })
 
 	-- Optional: Map a keybinding to quickly search
-	vim.keymap.set("n", "<leader>gs", "<cmd>Google<CR>", { noremap = true, silent = false })
-	vim.keymap.set("n", "<leader>gr", "<cmd>Github<CR>", { noremap = true, silent = false })
-	vim.keymap.set("n", "<leader>gi", "<cmd>Gist<CR>", { noremap = true, silent = false })
+	-- vim.keymap.set("n", "<leader>gs", "<cmd>Google<CR>", { noremap = true, silent = false })
+	-- vim.keymap.set("n", "<leader>gr", "<cmd>Github<CR>", { noremap = true, silent = false })
+	-- vim.keymap.set("n", "<leader>gi", "<cmd>Gist<CR>", { noremap = true, silent = false })
 	-- Create a keybinding to invoke the command in visual mode
 	-- Command to print the selected text
 	vim.api.nvim_create_user_command("PrintSelectedText", function()
@@ -220,7 +220,7 @@ function M.setup(opts)
 	end, { desc = "Print the selected text in visual mode" })
 
 	-- Key mapping for visual mode
-	vim.keymap.set("v", "<leader>gv", "<cmd>PrintSelectedText<CR>", { desc = "Print selected text", silent = true })
+	-- vim.keymap.set("v", "<leader>gv", "<cmd>PrintSelectedText<CR>", { desc = "Print selected text", silent = true })
 end
 
 return M
