@@ -257,6 +257,7 @@ end
 -- Remove transparency
 function M.remove_transparency()
 	vim.api.nvim_set_hl(0, "Normal", { bg = "#232136" })
+	-- vim.api.nvim_set_hl(0, "Normal", { bg = "#000000" })
 	-- vim.api.nvim_set_hl(0, "Normal", { ctermbg = "none", guibg = "default" })
 	-- vim.api.nvim_set_hl(0, "NonText", { ctermbg = "none", guibg = "default" })
 	M.is_transparent = false
