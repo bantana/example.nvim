@@ -248,19 +248,17 @@ M.is_transparent = false
 
 -- Apply transparency
 function M.apply_transparency()
-	vim.cmd([[
-    highlight Normal ctermbg=none guibg=none
-    highlight NonText ctermbg=none guibg=none
-  ]])
+	vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
+	-- vim.api.nvim_set_hl(0, "Normal", { ctermbg = "none", guibg = "none" })
+	-- vim.api.nvim_set_hl(0, "NonText", { ctermbg = "none", guibg = "none" })
 	M.is_transparent = true
 end
 
 -- Remove transparency
 function M.remove_transparency()
-	vim.cmd([[
-    highlight Normal ctermbg=none guibg=default
-    highlight NonText ctermbg=none guibg=default
-  ]])
+	vim.api.nvim_set_hl(0, "Normal", { bg = "#232136" })
+	-- vim.api.nvim_set_hl(0, "Normal", { ctermbg = "none", guibg = "default" })
+	-- vim.api.nvim_set_hl(0, "NonText", { ctermbg = "none", guibg = "default" })
 	M.is_transparent = false
 end
 
