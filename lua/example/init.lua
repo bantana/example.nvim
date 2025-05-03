@@ -243,4 +243,36 @@ end
 -- Create a command to call the function
 vim.api.nvim_create_user_command("DeleteOtherBuffers", delete_other_buffers, {})
 
+-- Flag to track transparency state
+M.is_transparent = false
+
+-- Apply transparency
+function M.apply_transparency()
+	vim.cmd([[
+    highlight Normal ctermbg=none guibg=none
+    highlight NonText ctermbg=none guibg=none
+  ]])
+	M.is_transparent = true
+end
+
+-- Remove transparency
+function M.remove_transparency()
+	vim.cmd([[
+    highlight Normal ctermbg=none guibg=default
+    highlight NonText ctermbg=none guibg=default
+  ]])
+	M.is_transparent = false
+end
+
+-- Toggle transparency
+function M.toggle_transparency()
+	if M.is_transparent then
+		M.remove_transparency()
+	else
+		M.apply_transparency()
+	end
+end
+
+vim.api.nvim_create_user_command("ToggleTransparency", M.toggle_transparency, {})
+
 return M
