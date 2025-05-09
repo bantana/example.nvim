@@ -49,11 +49,11 @@ function M.google_search(query)
 
 	-- Determine the OS and set the appropriate command to open URLs
 	if vim.fn.has("mac") == 1 then
-		open_cmd = "open " .. google_url -- macOS
+		open_cmd = "open " .. google_url   -- macOS
 	elseif vim.fn.has("unix") == 1 then
 		open_cmd = "xdg-open " .. google_url -- Linux
 	elseif vim.fn.has("win32") == 1 then
-		open_cmd = "start " .. google_url -- Windows
+		open_cmd = "start " .. google_url  -- Windows
 	else
 		print("Unsupported OS")
 		return
@@ -71,11 +71,11 @@ function M.github_search(query)
 
 	-- Determine the OS and set the appropriate command to open URLs
 	if vim.fn.has("mac") == 1 then
-		open_cmd = "open " .. github_url -- macOS
+		open_cmd = "open " .. github_url   -- macOS
 	elseif vim.fn.has("unix") == 1 then
 		open_cmd = "xdg-open " .. github_url -- Linux
 	elseif vim.fn.has("win32") == 1 then
-		open_cmd = "start " .. github_url -- Windows
+		open_cmd = "start " .. github_url  -- Windows
 	else
 		print("Unsupported OS")
 		return
@@ -94,11 +94,11 @@ function M.gist_search(query)
 
 	-- Determine the OS and set the appropriate command to open URLs
 	if vim.fn.has("mac") == 1 then
-		open_cmd = "open " .. gist_url -- macOS
+		open_cmd = "open " .. gist_url   -- macOS
 	elseif vim.fn.has("unix") == 1 then
 		open_cmd = "xdg-open " .. gist_url -- Linux
 	elseif vim.fn.has("win32") == 1 then
-		open_cmd = "start " .. gist_url -- Windows
+		open_cmd = "start " .. gist_url  -- Windows
 	else
 		print("Unsupported OS")
 		return
