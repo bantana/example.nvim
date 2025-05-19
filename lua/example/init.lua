@@ -255,4 +255,71 @@ end
 
 vim.api.nvim_create_user_command("BgTransparency", M.bg_transparency, {})
 
+-- 替换中文标点为英文半角标点+空格
+function M.replace_chinese_punctuations_line(line)
+	local map = {
+		["，"] = ", ",
+		["。"] = ". ",
+		["！"] = "! ",
+		["？"] = "? ",
+		["："] = ": ",
+		["；"] = "; ",
+		["“"] = '"',
+		["”"] = '"',
+		["‘"] = "'",
+		["’"] = "'",
+		["《"] = "<",
+		["》"] = ">",
+		["（"] = "(",
+		["）"] = ")",
+		["【"] = "[",
+		["】"] = "]",
+		["、"] = ", ",
+		["——"] = "--",
+		["……"] = "...",
+		["·"] = ".",
+		["「"] = '"',
+		["」"] = '"',
+		["『"] = '"',
+		["』"] = '"',
+	}
+	local res = line
+	for zh, en in pairs(map) do
+		res = res:gsub(zh, en)
+	end
+	return res
+end
+
+-- 当前 buffer 全部替换
+function M.replace_chinese_punctuations_buffer()
+	local bufnr = vim.api.nvim_get_current_buf()
+	local lines = vim.api.nvim_buf_get_lines(bufnr, 0, -1, false)
+	for i, line in ipairs(lines) do
+		lines[i] = M.replace_chinese_punctuations_line(line)
+	end
+	vim.api.nvim_buf_set_lines(bufnr, 0, -1, false, lines)
+end
+
+-- 可视区域替换（支持 <,'> 选区）
+function M.replace_chinese_punctuations_range(opts)
+	local bufnr = vim.api.nvim_get_current_buf()
+	local start_line = opts.line1 - 1
+	local end_line = opts.line2
+	local lines = vim.api.nvim_buf_get_lines(bufnr, start_line, end_line, false)
+	for i, line in ipairs(lines) do
+		lines[i] = M.replace_chinese_punctuations_line(line)
+	end
+	vim.api.nvim_buf_set_lines(bufnr, start_line, end_line, false, lines)
+end
+
+-- 普通命令（处理全文件）
+vim.api.nvim_create_user_command("ReplaceChinesePunctuations", function()
+	M.replace_chinese_punctuations_buffer()
+end, { desc = "将全文件中文标点替换为英文半角标点+空格" })
+
+-- 可视区域命令
+vim.api.nvim_create_user_command("ReplaceChinesePunctuationsRange", function(opts)
+	M.replace_chinese_punctuations_range(opts)
+end, { range = true, desc = "将选区中文标点替换为英文半角标点+空格" })
+
 return M
