@@ -18,6 +18,8 @@ Install using [`lazy.nvim`](https://github.com/folke/lazy.nvim):
     'DeleteOtherBuffers',
     'BgDark',
     'BgTransparency',
+    'ReplaceChinesePunctuations',
+    'ReplaceChinesePunctuationsRange',
   },
   opts = {
     default_name = 'world!',
