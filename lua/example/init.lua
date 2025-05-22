@@ -63,6 +63,26 @@ function M.google_search(query)
 	os.execute(open_cmd)
 end
 
+function M.crates_search(query)
+	local crates_url = "https://crates.io/search?q=" .. query:gsub(" ", "+")
+	local open_cmd
+
+	-- Determine the OS and set the appropriate command to open URLs
+	if vim.fn.has("mac") == 1 then
+		open_cmd = "open " .. crates_url -- macOS
+	elseif vim.fn.has("unix") == 1 then
+		open_cmd = "xdg-open " .. crates_url -- Linux
+	elseif vim.fn.has("win32") == 1 then
+		open_cmd = "start " .. crates_url -- Windows
+	else
+		print("Unsupported OS")
+		return
+	end
+
+	-- Execute the command
+	os.execute(open_cmd)
+end
+
 -- github repository search
 function M.github_search(query)
 	-- https://github.com/search?q=language%3ARust+axum&type=repositories
@@ -178,6 +198,18 @@ function M.setup(opts)
 			M.google_search(input)
 		end)
 	end, { nargs = 0, desc = "Google Search on example.nvim plugin" })
+
+	-- Create a user command for Crates.io search
+	vim.api.nvim_create_user_command("Crates", function()
+		vim.ui.input({ prompt = "Enter Crates.io Search keyword: " }, function(input)
+			-- Use input if provided, otherwise fallback to opts.default_name
+			if not input or input == "" then
+				print("no search keyword, cancel")
+				return
+			end
+			M.crates_search(input)
+		end)
+	end, { nargs = 0, desc = "Crates.io Search n example.nvim plugin" })
 
 	-- Create a user command for Github search
 	vim.api.nvim_create_user_command("Github", function()
