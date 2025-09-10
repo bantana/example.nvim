@@ -49,11 +49,11 @@ function M.google_search(query)
 
 	-- Determine the OS and set the appropriate command to open URLs
 	if vim.fn.has("mac") == 1 then
-		open_cmd = "open " .. google_url -- macOS
+		open_cmd = "open " .. google_url   -- macOS
 	elseif vim.fn.has("unix") == 1 then
 		open_cmd = "xdg-open " .. google_url -- Linux
 	elseif vim.fn.has("win32") == 1 then
-		open_cmd = "start " .. google_url -- Windows
+		open_cmd = "start " .. google_url  -- Windows
 	else
 		print("Unsupported OS")
 		return
@@ -69,11 +69,11 @@ function M.crates_search(query)
 
 	-- Determine the OS and set the appropriate command to open URLs
 	if vim.fn.has("mac") == 1 then
-		open_cmd = "open " .. crates_url -- macOS
+		open_cmd = "open " .. crates_url   -- macOS
 	elseif vim.fn.has("unix") == 1 then
 		open_cmd = "xdg-open " .. crates_url -- Linux
 	elseif vim.fn.has("win32") == 1 then
-		open_cmd = "start " .. crates_url -- Windows
+		open_cmd = "start " .. crates_url  -- Windows
 	else
 		print("Unsupported OS")
 		return
@@ -91,11 +91,11 @@ function M.github_search(query)
 
 	-- Determine the OS and set the appropriate command to open URLs
 	if vim.fn.has("mac") == 1 then
-		open_cmd = "open " .. github_url -- macOS
+		open_cmd = "open " .. github_url   -- macOS
 	elseif vim.fn.has("unix") == 1 then
 		open_cmd = "xdg-open " .. github_url -- Linux
 	elseif vim.fn.has("win32") == 1 then
-		open_cmd = "start " .. github_url -- Windows
+		open_cmd = "start " .. github_url  -- Windows
 	else
 		print("Unsupported OS")
 		return
@@ -114,11 +114,11 @@ function M.gist_search(query)
 
 	-- Determine the OS and set the appropriate command to open URLs
 	if vim.fn.has("mac") == 1 then
-		open_cmd = "open " .. gist_url -- macOS
+		open_cmd = "open " .. gist_url   -- macOS
 	elseif vim.fn.has("unix") == 1 then
 		open_cmd = "xdg-open " .. gist_url -- Linux
 	elseif vim.fn.has("win32") == 1 then
-		open_cmd = "start " .. gist_url -- Windows
+		open_cmd = "start " .. gist_url  -- Windows
 	else
 		print("Unsupported OS")
 		return
@@ -354,4 +354,21 @@ vim.api.nvim_create_user_command("ReplaceChinesePunctuationsRange", function(opt
 	M.replace_chinese_punctuations_range(opts)
 end, { range = true, desc = "将选区中文标点替换为英文半角标点+空格" })
 
+function M.CreateResiFile()
+	local path = vim.api.nvim_buf_get_name(0)
+	if vim.fn.filereadable(path .. "i") == 1 then
+		print("Interface file already exists")
+	else
+		vim.lsp.buf_request(
+			0,
+			"textDocument/createInterface",
+			{ uri = "file://" .. path },
+			function()
+				print("Interface file created")
+			end
+		)
+	end
+end
+
+vim.api.nvim_create_user_command("RescriptCreateInterfaceFile", M.CreateResiFile, {})
 return M
