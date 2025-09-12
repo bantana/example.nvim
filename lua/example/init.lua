@@ -371,4 +371,41 @@ function M.CreateResiFile()
 end
 
 vim.api.nvim_create_user_command("RescriptCreateInterfaceFile", M.CreateResiFile, {})
+
+local group = "AutoReadChecktime"
+
+function M.enable_autoread(opts)
+	vim.o.autoread = true
+	vim.api.nvim_create_augroup(group, { clear = true })
+	vim.api.nvim_create_autocmd(
+		{ "BufEnter", "CursorHold", "CursorHoldI", "FocusGained" },
+		{
+			group = group,
+			pattern = "*",
+			command = "if mode() != 'c' | checktime | endif",
+			desc = "Automatically check for file changes unless in command mode"
+		}
+	)
+	if not opts or not opts.silent then
+		vim.notify("AutoRead enabled", vim.log.levels.INFO)
+	end
+end
+
+function M.disable_autoread(opts)
+	vim.o.autoread = false
+	pcall(vim.api.nvim_del_augroup_by_name, group)
+	if not opts or not opts.silent then
+		vim.notify("AutoRead disabled", vim.log.levels.INFO)
+	end
+end
+
+vim.api.nvim_create_user_command("AutoReadEnable", function(params)
+	M.enable_autoread({ silent = params.bang })
+end, { bang = true })
+
+vim.api.nvim_create_user_command("AutoReadDisable", function(params)
+	M.disable_autoread({ silent = params.bang })
+end, { bang = true })
+
+
 return M
